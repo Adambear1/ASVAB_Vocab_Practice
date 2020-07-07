@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-const request = require("request");
-const axios = require("axios");
+// const request = require("request");
+// const axios = require("axios");
 const helmet = require("helmet");
 const PORT = process.env.PORT || 8080;
 const app = express();
