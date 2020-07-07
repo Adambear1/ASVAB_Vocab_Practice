@@ -12,7 +12,7 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-require("./app/routes/html-routes")(app);
+require("./html-routes")(app);
 
 app.listen(PORT, () => {
   `Listening on PORT ${PORT}`;
