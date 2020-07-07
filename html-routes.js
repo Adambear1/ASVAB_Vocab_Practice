@@ -2,7 +2,7 @@ require("dotenv").config;
 const express = require("express");
 const { request } = require("https");
 const app = express();
-token = process.env.TOKEN;
+const token = process.env.TOKEN;
 
 module.exports = (app) => {
   app.get("/", (req, res) => {
