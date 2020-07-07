@@ -6,7 +6,7 @@ const token = process.env.TOKEN;
 
 module.exports = (app) => {
   app.get("/", (req, res) => {
-    res.send("dafsvx");
+    res.sendFile(__dirname + "/index.html");
   });
   app.get("/webhook/", (req, res) => {
     if (req.query["hub.verify_token"] === "blondiebytes") {
