@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Adambear1/ASVAB_Vocab_Practice#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "helmet": "^3.23.3",
     "request": "^2.88.2"
   }
