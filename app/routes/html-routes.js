@@ -4,7 +4,7 @@ module.exports = (app) => {
     res.send("dafsvx");
   });
   app.get("/webhook/", (req, res) => {
-    if (req.query["hub.verify_token"] === "blondiebytes") {
+    if (req.query["hub.verify_token"] === "adam") {
       res.send(req.query["hub.challenge"]);
     }
     res.send("Wrong token");
