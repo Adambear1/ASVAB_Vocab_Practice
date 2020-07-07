@@ -47,19 +47,14 @@ function sendText(sender, text) {
   let messageData = { text: text };
   request(
     {
-      url: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { access_token: token },
       method: "POST",
-      json: {
-        recipient: { id: sender },
-        message: messageData,
-      },
+      uri: `https://graph.facebook.com/v2.6/me/subscribed_apps?subscribed_fields=publisher_subscriptions&access_token=${token}`,
     },
-    function (error, response, body) {
+    (error, response, body) => {
       if (error) {
-        console.log("sending error");
-      } else if (response.body.error) {
-        console.log("response body error");
+        console.error("Error while subscription: ", error);
+      } else {
+        console.log("Subscription result: ", response.body);
       }
     }
   );
