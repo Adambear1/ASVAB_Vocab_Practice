@@ -1,0 +1,26 @@
+{
+  "name": "ASVAB_Vocab_Practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adambear1/ASVAB_Vocab_Practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adambear1/ASVAB_Vocab_Practice/issues"
+  },
+  "homepage": "https://github.com/Adambear1/ASVAB_Vocab_Practice#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "helmet": "^3.23.3",
+    "request": "^2.88.2"
+  }
+}
