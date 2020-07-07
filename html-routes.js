@@ -34,7 +34,7 @@ module.exports = (app) => {
         url: `https://graph.facebook.com/v2.6/me/subscribed_apps?subscribed_fields=publisher_subscriptions&access_token=${token}`,
         qs: { access_token: token },
         json: {
-          receipt: { id: sender },
+          recipient: { id: sender },
           message: messageData,
         },
       },
