@@ -1,59 +1,70 @@
+"use strict";
+
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-// const request = require("request");
-// const axios = require("axios");
-const helmet = require("helmet");
-const PORT = process.env.PORT || 8080;
-const app = express();
-app.use(helmet());
+const request = require("request");
 
+const app = express();
+
+app.set("port", process.env.PORT || 5000);
+
+// Allows us to process the data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-require("./html-routes")(app);
+// ROUTES
 
-app.listen(PORT, () => {
-  `Listening on PORT ${PORT}`;
+app.get("/", function (req, res) {
+  res.send("Hi I am a chatbot");
 });
 
-// const nodeMailer = require("nodeMailer");
+let token = process.env.TOKEN;
 
-// function sendEmail() {
-//   //Set up email validation
-//   var transporter = nodemailer.createTransport({
-//     service: "Gmail",
-//     auth: {
-//       user: process.env.EMAIL,
-//       pass: process.env.PASS,
-//     },
-//   });
-//   let mailOptions = {
-//     from: process.env.EMAIL,
-//     to: process.env.EMAIL,
-//     subject: data,
-//   };
+// Facebook
 
-//   //
-//   var number = Math.floor(Math.random() * 10);
-//   axios({
-//     method: "GET",
-//     url: "https://twinword-word-association-quiz.p.rapidapi.com/type1/",
-//     headers: {
-//       "content-type": "application/octet-stream",
-//       "x-rapidapi-host": process.env.HOST,
-//       "x-rapidapi-key": process.env.PASS,
-//       useQueryString: true,
-//     },
-//     params: {
-//       area: "sat",
-//       level: JSON.stringify(number),
-//     },
-//   })
-//     .then((response) => {
-//       console.log(response);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// }
+app.get("/webhook/", function (req, res) {
+  if (req.query["hub.verify_token"] === "blondiebytes") {
+    res.send(req.query["hub.challenge"]);
+  }
+  res.send("Wrong token");
+});
+
+app.post("/webhook/", function (req, res) {
+  let messaging_events = req.body.entry[0].messaging;
+  for (let i = 0; i < messaging_events.length; i++) {
+    let event = messaging_events[i];
+    let sender = event.sender.id;
+    if (event.message && event.message.text) {
+      let text = event.message.text;
+      sendText(sender, "Text echo: " + text.substring(0, 100));
+    }
+  }
+  res.sendStatus(200);
+});
+
+function sendText(sender, text) {
+  let messageData = { text: text };
+  request(
+    {
+      url: "https://graph.facebook.com/v2.6/me/messages",
+      qs: { access_token: token },
+      method: "POST",
+      json: {
+        recipient: { id: sender },
+        message: messageData,
+      },
+    },
+    function (error, response, body) {
+      if (error) {
+        console.log("sending error");
+      } else if (response.body.error) {
+        console.log("response body error");
+      }
+    }
+  );
+}
+
+app.listen(app.get("port"), function () {
+  console.log("running: port");
+});
